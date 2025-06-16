@@ -40,7 +40,7 @@ grep "^z[0-9][0-9]$"
 ) ; do
 echo $DB
 
-# clean orphned data
+# clean not an exciting data
 PGHOST=$DBHOST \
 PGPORT=$DBPORT \
 PGUSER=postgres \
@@ -53,6 +53,10 @@ DELETE FROM events WHERE events.source=3 AND events.object=4 AND events.objectid
 DELETE FROM events WHERE source=0 AND object=0 AND objectid NOT IN (SELECT triggerid FROM triggers);
 
 DELETE FROM events WHERE source = 3 AND object = 0 AND objectid NOT IN (SELECT triggerid FROM triggers);
+
+DELETE FROM events WHERE source > 0;
+
+DELETE FROM auditlog;
 
 DELETE FROM history WHERE itemid NOT IN (SELECT itemid FROM items);
 DELETE FROM history_uint WHERE itemid NOT IN (SELECT itemid FROM items);
